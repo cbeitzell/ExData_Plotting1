@@ -2,14 +2,24 @@ dtfile<- fread("household_power_consumption.txt",colClasses = c(Date="character"
 dtsub <- subset(dtfile, Date == '1/2/2007' | Date == '2/2/2007')
 rm(dtfile)
 
-hist(as.numeric(dtsub$Global_active_power), col = "red", xlab = "Global Active Power (kilowatts)")
+par(mfrow = c(1,1))
+with(dtsub,hist(as.numeric(Global_active_power), main = "Global Active Power", col = "red", xlab = "Global Active Power (kilowatts)"))
+dev.copy(png, file = "plot1.png")
+dev.off()
 
+par(mfrow = c(1,1))
 with(dtsub,plot(strptime(paste(Date,Time), format = '%d/%m/%Y %H:%M:%S'),Global_active_power, type = "l",xlab = "",ylab = "Global Active Power (kilowatts)"))
+dev.copy(png, file = "plot2.png")
+dev.off()
 
+par(mfrow = c(1,1))
 with(dtsub,plot(strptime(paste(Date,Time), format = '%d/%m/%Y %H:%M:%S'),Sub_metering_1, type = "l", xlab = "", ylab = "Energy sub metering"))
 with(dtsub,points(strptime(paste(Date,Time), format = '%d/%m/%Y %H:%M:%S'),Sub_metering_2,col = "red", type = "l"))
 with(dtsub,points(strptime(paste(Date,Time), format = '%d/%m/%Y %H:%M:%S'),Sub_metering_3,col = "blue",type = "l"))
 legend("topright",lwd = 1, col = c("black","red","blue"), legend = c("Sub_metering_1","Sub_metering_2,","Sub_metering_3"))
+dev.copy(png, file = "plot3.png")
+dev.off()
+
 
 par(mfrow = c(2,2))
 with(dtsub,{
@@ -21,3 +31,5 @@ with(dtsub,{
         legend("topright",lwd = 1, col = c("black","red","blue"), legend = c("Sub_metering_1","Sub_metering_2,","Sub_metering_3"))
         plot(strptime(paste(Date,Time), format = '%d/%m/%Y %H:%M:%S'),Global_reactive_power, type = "l",xlab = "datetime")
 })
+dev.copy(png, file = "plot4.png")
+dev.off()
